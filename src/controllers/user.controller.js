@@ -68,12 +68,32 @@ async function login(req, res) {
                 res.status(200).json({ success: true, token })
             })
     } catch (error) {
-        res.send({ message: error })
+        res.send({ message: error.message })
+    }
+}
+
+async function me(req, res) {
+    const token = req.headers.authorization
+    const user = jwt.decode(token.slice(7));
+    try {
+        await UserModel.findById(user._id, { password: 0 })
+            .exec((error, data) => {
+                if (error) return res.status(401).json({ success: false, error })
+                if (!data)
+                    return res.status(401).json({
+                        success: false,
+                        error: "data were not collected"
+                    })
+                res.status(200).json({ success: true, data })
+            })
+    } catch (error) {
+        res.send({ message: error.message })
     }
 }
 
 module.exports = {
     createUser,
     deleteUser,
-    login
+    login,
+    me
 }
