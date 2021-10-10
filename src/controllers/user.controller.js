@@ -26,20 +26,6 @@ async function createUser(req, res) {
     }
 }
 
-async function deleteUser(req, res) {
-    const { id } = req.params
-    try {
-        await UserModel.findOneAndRemove({ _id: id })
-        res.send({
-            message: "User has been deleted successfully"
-        })
-    } catch (error) {
-        res.status(500).send({
-            message: error.message
-        })
-    }
-}
-
 async function login(req, res) {
     const { login, password } = req.body
     try {
@@ -117,7 +103,6 @@ async function signup(req, res) {
 
 module.exports = {
     createUser,
-    deleteUser,
     login,
     me,
     signup

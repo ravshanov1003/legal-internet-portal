@@ -24,8 +24,18 @@ async function checkUser(req, res, next) {
     }
 }
 
-
+function checkPermission(...roles) {
+    return async(req, res, next) => {
+        if (!roles.includes(req.user.userType))
+            return res.status(403).json({
+                success: false,
+                error: `${req.user.userType} don't have permission`
+            })
+        next()
+    }
+}
 
 module.exports = {
-    protect: checkUser
+    protect: checkUser,
+    checkPermission
 }
