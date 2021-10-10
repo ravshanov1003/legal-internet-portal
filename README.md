@@ -2,20 +2,42 @@
 
 ***Authorization***
 
-*Login*
+Login:
 /api/user/login
-*CreateUser || SignUp*
+
+CreateUser || SignUp:
 /api/user/signup
-*View personal data*
+
+View personal data:
 /api/user/me
 
 ***Admin***
 
-*GetUsers*
+Get Users:
 /api/admin/users
-*GetUser*
+
+Get User:
 /api/admin/user
-*UpdateUser*
+
+Update User:
 /api/admin/update
-*DeleteUser*
+
+Delete User:
 /api/admin/delete
+
+***News***
+
+Add news:
+/api/news/add
+
+Update:
+/api/news/update/:id
+
+Delete:
+/api/news/delete/:id
+
+Get All:
+/api/news/all
+
+Get By Id:
+/api/news/:id
