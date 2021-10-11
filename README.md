@@ -47,3 +47,17 @@ Home:
 
 Get Home:
 /api/news/home/:lang/:id
+
+***Books-catalog***
+
+Create:
+/api/books-catalog/add
+
+Update:
+/api/books-catalog/update/:id
+
+Delete:
+/api/books-catalog/delete/:id
+
+Get All:
+/api/books-catalog/all
