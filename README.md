@@ -41,3 +41,9 @@ Get All:
 
 Get By Id:
 /api/news/:id
+
+Home:
+/api/news/home
+
+Get Home:
+/api/news/home/:lang/:id

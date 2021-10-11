@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 
 const schema = new Schema({
     title: {
@@ -27,4 +27,4 @@ const schema = new Schema({
 }, { timestamps: true, collection: 'news' })
 
 
-module.exports = model('News', schema)
+module.exports = { NewsModel: model('News', schema) }
