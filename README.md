@@ -1,6 +1,6 @@
 **API**
 
-***Authorization***
+**Authorization**
 
 Login:
 /api/user/login
@@ -11,7 +11,7 @@ CreateUser || SignUp:
 View personal data:
 /api/user/me
 
-***Admin***
+**Admin**
 
 Get Users:
 /api/admin/users
@@ -25,7 +25,7 @@ Update User:
 Delete User:
 /api/admin/delete
 
-***News***
+**News**
 
 Add news:
 /api/news/add
@@ -48,7 +48,7 @@ Home:
 Get Home:
 /api/news/home/:lang/:id
 
-***Books-catalog***
+**Books-catalog**
 
 Create:
 /api/books-catalog/add
@@ -61,3 +61,17 @@ Delete:
 
 Get All:
 /api/books-catalog/all
+
+**Books**
+
+Create:
+/api/library/add
+
+Update:
+/api/library/update/:id
+
+Delete:
+/api/library/delete/:id
+
+Get All:
+/api/library/all
