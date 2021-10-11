@@ -22,6 +22,7 @@ async function add(req, res) {
 async function getAll(req, res) {
     try {
         const news = await NewsModel.find()
+            .sort({ createdAt: -1 })
         if (!news) res.send(404).json({ success: false, error })
         res.status(200).json({
             success: true,

@@ -7,6 +7,7 @@ const log = require("../utils/createLog");
 async function getUsers(req, res) {
     try {
         const users = await UserModel.find()
+            .sort({ createdAt: -1 })
         res.send(users)
     } catch (error) {
         console.log(error)
