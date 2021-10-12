@@ -22,4 +22,12 @@ app.use('/api/news', newsRouter)
 app.use('/api/books-catalog', booksCatalogRouter)
 app.use('/api/library', bookRouter)
 
+// api.use((error, req, res, next) => {
+//     res.status(500).json({
+//         success: false,
+//         error: error.message
+//     })
+//     next()
+// })
+
 app.listen(PORT, connectDb)
