@@ -10,6 +10,6 @@ router.delete('/delete/:id', protect, checkPermission('admin'), news.deleteById)
 router.put('/update/:id', protect, checkPermission('admin'), news.updateById)
 router.get('/home', news.home)
 router.get('/home/:lang/:id', news.getHome)
-
+router.get('/admin', protect, checkPermission('admin'), news.admin)
 
 module.exports = { newsRouter: router }

@@ -76,7 +76,7 @@ async function updateById(req, res) {
 
 async function home(req, res) {
     try {
-        await News.find({ lang: req.query.lang })
+        await NewsModel.find({ lang: req.query.lang })
             .sort({ createdAt: -1 })
             .limit(5)
             .exec((err, data) => {
@@ -90,8 +90,8 @@ async function home(req, res) {
 
 async function getHome(req, res) {
     try {
-        await News.updateOne({ _id: req.params.id }, { $inc: { views: 1 } }, { new: true })
-        await News.findOne({ _id: req.params.id })
+        await NewsModel.updateOne({ _id: req.params.id }, { $inc: { views: 1 } }, { new: true })
+        await NewsModel.findOne({ _id: req.params.id })
             .exec(async(error, data) => {
                 if (error) return res.status(400).json({ success: false, error })
 
@@ -100,8 +100,22 @@ async function getHome(req, res) {
                         success: false,
                         error: "Not founded"
                     })
-                const last = await News.find({ lang: data.lang }).sort({ views: -1 }).limit(10)
+                const last = await NewsModel.find({ lang: data.lang }).sort({ views: -1 }).limit(10)
                 res.status(200).json({ success: true, data, last })
+            })
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message })
+    }
+}
+
+async function admin(req, res) {
+    try {
+        await NewsModel.find()
+            .sort({ createdAt: -1 })
+            .select({ tags: 0, article: 0 })
+            .exec((err, data) => {
+                if (err) return res.status(400).json({ success: false, err })
+                return res.status(200).json({ success: true, data })
             })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
@@ -115,5 +129,6 @@ module.exports = {
     deleteById,
     updateById,
     home,
-    getHome
+    getHome,
+    admin
 }
