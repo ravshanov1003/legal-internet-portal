@@ -75,3 +75,17 @@ Delete:
 
 Get All:
 /api/library/all
+
+**Phone Catalog**
+
+Add:
+/api/phones-catalog/add
+
+Update:
+/api/phones-catalog/update/:id
+
+Delete:
+/api/phones-catalog/delete/:id
+
+GetAll:
+/api/phones-catalog/all
