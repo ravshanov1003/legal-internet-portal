@@ -7,6 +7,7 @@ const { newsRouter } = require('./src/routes/news.route')
 const { bookRouter } = require('./src/routes/books.route')
 const { adminRouter } = require('./src/routes/admin.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
+const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 
 const app = express()
 require('dotenv').config()
@@ -21,13 +22,14 @@ app.use('/api/admin', adminRouter)
 app.use('/api/news', newsRouter)
 app.use('/api/books-catalog', booksCatalogRouter)
 app.use('/api/library', bookRouter)
+app.use('/api/phones-catalog', phonesCatalogRouter)
 
-// api.use((error, req, res, next) => {
-//     res.status(500).json({
-//         success: false,
-//         error: error.message
-//     })
-//     next()
-// })
+app.use((error, req, res, next) => {
+    res.status(500).json({
+        success: false,
+        error: error.message
+    })
+    next()
+})
 
 app.listen(PORT, connectDb)
