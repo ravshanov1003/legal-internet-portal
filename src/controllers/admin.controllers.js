@@ -8,9 +8,9 @@ async function getUsers(req, res) {
     try {
         const users = await UserModel.find()
             .sort({ createdAt: -1 })
-        res.send(users)
+        res.status(200).json({ success: true, users })
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ success: false, message: error.message })
     }
 }
 
@@ -18,9 +18,9 @@ async function getUser(req, res) {
     const { id } = req.params
     try {
         const user = await UserModel.findOne({ _id: id })
-        res.send(user)
+        res.status(200).json({ success: true, user })
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ success: false, message: error.message })
     }
 }
 
@@ -37,15 +37,9 @@ async function updateUser(req, res) {
                 hashPassword
             })
             // await updatedUser.save()
-        res.json({
-            success: true,
-            message: "User has been updated"
-        })
+        res.json({ success: true, message: "User has been updated" })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -53,15 +47,9 @@ async function deleteUser(req, res) {
     const { id } = req.params
     try {
         await UserModel.findOneAndRemove({ _id: id })
-        res.json({
-            success: true,
-            message: "User has been deleted successfully"
-        })
+        res.json({ success: true, message: "User has been deleted successfully" })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
