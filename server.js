@@ -6,6 +6,7 @@ const { userRouter } = require('./src/routes/user.route')
 const { newsRouter } = require('./src/routes/news.route')
 const { bookRouter } = require('./src/routes/books.route')
 const { adminRouter } = require('./src/routes/admin.route')
+const { sitesRouter } = require('./src/routes/sites.route')
 const { phoneRouter } = require('./src/routes/phones.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
@@ -25,8 +26,10 @@ app.use('/api/books-catalog', booksCatalogRouter)
 app.use('/api/library', bookRouter)
 app.use('/api/phones-catalog', phonesCatalogRouter)
 app.use('/api/helpline', phoneRouter)
+app.use('/api/sites', sitesRouter)
 
 app.use((error, req, res, next) => {
+    console.log(error)
     res.status(500).json({
         success: false,
         error: error.message
