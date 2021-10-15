@@ -4,6 +4,7 @@ const express = require('express')
 const { connectDb } = require('./db/db')
 const { userRouter } = require('./src/routes/user.route')
 const { newsRouter } = require('./src/routes/news.route')
+const { fileRouter } = require('./src/routes/files.route')
 const { bookRouter } = require('./src/routes/books.route')
 const { adminRouter } = require('./src/routes/admin.route')
 const { sitesRouter } = require('./src/routes/sites.route')
@@ -16,10 +17,12 @@ require('dotenv').config()
 
 const PORT = process.env.PORT || 3000
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/user', userRouter)
+app.use('/api/file', fileRouter)
 app.use('/api/admin', adminRouter)
 app.use('/api/news', newsRouter)
 app.use('/api/books-catalog', booksCatalogRouter)
