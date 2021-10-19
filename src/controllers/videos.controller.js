@@ -39,4 +39,15 @@ async function deleteById(req, res) {
     }
 }
 
-module.exports = { add, all, updateById, deleteById }
+async function getSize(req, res) {
+    try {
+        await VideoModel.countDocuments((error, count) => {
+            if (error) return res.status(400).json({ success: false, message: error.message })
+            res.status(200).json({ success: true, data: count })
+        })
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message })
+    }
+}
+
+module.exports = { add, all, updateById, deleteById, getSize }

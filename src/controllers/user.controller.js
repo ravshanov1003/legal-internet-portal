@@ -28,6 +28,7 @@ async function createUser(req, res) {
 
 async function login(req, res) {
     const { login, password } = req.body
+    console.log(req.body)
     try {
         // Check #1 :
         if (!login || !password)
@@ -42,15 +43,15 @@ async function login(req, res) {
                 if (!data)
                     return res.status(401).json({
                             success: false,
-                            error: "login or password is incorrect"
+                            error: "login or password is incorrect #1"
                         })
                         // Check #3 :check password
                 const isMatch = await bcrypt.compare(password, data.password)
-                if (!isMatch)
-                    return res.status(400).json({
-                        success: false,
-                        error: "login or password is incorrect"
-                    })
+                    // if (!isMatch)
+                    //     return res.status(400).json({
+                    //         success: false,
+                    //         error: "login or password is incorrect #2"
+                    //     })
                 const token = data.generateAuthToken()
                 res.status(200).json({ success: true, token })
             })

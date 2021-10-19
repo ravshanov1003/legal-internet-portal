@@ -1,5 +1,7 @@
 const cors = require('cors')
 const express = require('express')
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const { connectDb } = require('./db/db')
 const { userRouter } = require('./src/routes/user.route')
@@ -13,7 +15,7 @@ const { videoRouter } = require('./src/routes/videos.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 
-const crud = require('./src/controllers/crud.controller')
+// const crud = require('./src/controllers/crud.controller')
 
 const app = express()
 require('dotenv').config()
@@ -24,7 +26,16 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//app.use('/api', crud)
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'Portal REST API',
+            description: "A REST API built with Express and MongoDB. "
+        },
+    },
+    apis: ["./src/routes/admin.route.js"]
+}
+
 app.use('/api/user', userRouter)
 app.use('/api/file', fileRouter)
 app.use('/api/admin', adminRouter)
@@ -35,6 +46,9 @@ app.use('/api/phones-catalog', phonesCatalogRouter)
 app.use('/api/helpline', phoneRouter)
 app.use('/api/sites', sitesRouter)
 app.use('/api/video', videoRouter)
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use((error, req, res, next) => {
     console.log(error)
