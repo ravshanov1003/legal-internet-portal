@@ -12,6 +12,7 @@ const { adminRouter } = require('./src/routes/admin.route')
 const { sitesRouter } = require('./src/routes/sites.route')
 const { phoneRouter } = require('./src/routes/phones.route')
 const { videoRouter } = require('./src/routes/videos.route')
+const { courseRouter } = require('./src/routes/course.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 
@@ -46,6 +47,7 @@ app.use('/api/phones-catalog', phonesCatalogRouter)
 app.use('/api/helpline', phoneRouter)
 app.use('/api/sites', sitesRouter)
 app.use('/api/video', videoRouter)
+app.use('/api/course', courseRouter)
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

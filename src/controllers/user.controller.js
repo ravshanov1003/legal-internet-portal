@@ -28,7 +28,6 @@ async function createUser(req, res) {
 
 async function login(req, res) {
     const { login, password } = req.body
-    console.log(req.body)
     try {
         // Check #1 :
         if (!login || !password)
@@ -47,6 +46,8 @@ async function login(req, res) {
                         })
                         // Check #3 :check password
                 const isMatch = await bcrypt.compare(password, data.password)
+                    // console.log(data)
+                    // console.log(isMatch)
                     // if (!isMatch)
                     //     return res.status(400).json({
                     //         success: false,
