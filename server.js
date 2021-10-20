@@ -15,6 +15,7 @@ const { videoRouter } = require('./src/routes/videos.route')
 const { courseRouter } = require('./src/routes/course.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
+const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
 const { technicalSchoolFacultyRouter } = require('./src/routes/technicalSchoolFaculty.route')
 
 // const crud = require('./src/controllers/crud.controller')
@@ -49,6 +50,7 @@ app.use('/api/helpline', phoneRouter)
 app.use('/api/sites', sitesRouter)
 app.use('/api/video', videoRouter)
 app.use('/api/course', courseRouter)
+app.use('/api/technical-school', technicalSchoolRouter)
 app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
