@@ -13,6 +13,7 @@ const { sitesRouter } = require('./src/routes/sites.route')
 const { phoneRouter } = require('./src/routes/phones.route')
 const { videoRouter } = require('./src/routes/videos.route')
 const { courseRouter } = require('./src/routes/course.route')
+const { problemFAQ_Router } = require('./src/routes/problemFAQ.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
@@ -52,6 +53,8 @@ app.use('/api/video', videoRouter)
 app.use('/api/course', courseRouter)
 app.use('/api/technical-school', technicalSchoolRouter)
 app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
+
+app.use('/api/problem-faq', problemFAQ_Router)
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
