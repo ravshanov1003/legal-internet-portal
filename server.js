@@ -14,12 +14,11 @@ const { phoneRouter } = require('./src/routes/phones.route')
 const { videoRouter } = require('./src/routes/videos.route')
 const { courseRouter } = require('./src/routes/course.route')
 const { problemFAQ_Router } = require('./src/routes/problemFAQ.route')
+const { problemThemeRouter } = require('./src/routes/problemTheme.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
 const { technicalSchoolFacultyRouter } = require('./src/routes/technicalSchoolFaculty.route')
-
-// const crud = require('./src/controllers/crud.controller')
 
 const app = express()
 require('dotenv').config()
@@ -37,7 +36,16 @@ const swaggerOptions = {
             description: "A REST API built with Express and MongoDB. "
         },
     },
-    apis: ["./src/routes/admin.route.js"]
+    securityDefinitions: {
+        bearerAuth: {
+            type: 'apiKey',
+            name: 'x-auth-token',
+            scheme: 'bearer',
+            in: 'header',
+            security: [{ bearerAuth: [] }],
+        },
+    },
+    apis: ["./src/routes/books.route.js"]
 }
 
 app.use('/api/user', userRouter)
@@ -55,6 +63,7 @@ app.use('/api/technical-school', technicalSchoolRouter)
 app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 
 app.use('/api/problem-faq', problemFAQ_Router)
+app.use('/api/problem-theme', problemThemeRouter)
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
