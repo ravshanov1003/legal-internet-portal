@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const { UserModel } = require('../models/user.model')
-const log = require('../utils/createLog')
 
 async function createUser(req, res) {
     const { login, email, fullName, password, userType } = req.body
@@ -92,11 +91,8 @@ async function signup(req, res) {
         let data = new UserModel(req.body)
         data.password = await bcrypt.hash(data.password, salt)
         await data.save()
-
         const token = req.headers.authorization
         const user = jwt.decode(token.slice(7))
-        log(user._id, 1, 'User', req.body.login)
-
         res.status(201).json({ success: true })
     } catch (error) {
         res.status(400).json({ success: false, error })

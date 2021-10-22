@@ -2,6 +2,7 @@ const cors = require('cors')
 const express = require('express')
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+//const ymlfile = require("./documentation")
 
 const { connectDb } = require('./db/db')
 const { userRouter } = require('./src/routes/user.route')
@@ -29,24 +30,20 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const swaggerOptions = {
-    swaggerDefinition: {
+const options = {
+    definition: {
+        openapi: "3.0.0",
         info: {
-            title: 'Portal REST API',
-            description: "A REST API built with Express and MongoDB. "
+            title: "Library API",
+            version: "1.0.0",
+            description: "A simple Express Library API",
         },
+        servers: [{
+            url: "http://localhost:5000",
+        }, ],
     },
-    securityDefinitions: {
-        bearerAuth: {
-            type: 'apiKey',
-            name: 'x-auth-token',
-            scheme: 'bearer',
-            in: 'header',
-            security: [{ bearerAuth: [] }],
-        },
-    },
-    apis: ["./src/routes/books.route.js"]
-}
+    apis: ["./routes/*.js"],
+};
 
 app.use('/api/user', userRouter)
 app.use('/api/file', fileRouter)
@@ -65,8 +62,9 @@ app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 app.use('/api/problem-faq', problemFAQ_Router)
 app.use('/api/problem-theme', problemThemeRouter)
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const specs = swaggerJsDoc(options);
+
+app.use("/api", swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use((error, req, res, next) => {
     console.log(error)

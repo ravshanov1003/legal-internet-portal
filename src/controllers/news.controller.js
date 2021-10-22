@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 
-const Log = require('../utils/createLog')
 const { NewsModel } = require('../models/news.model')
 
 async function add(req, res) {
@@ -10,10 +9,7 @@ async function add(req, res) {
         const token = req.headers.authorization
             // console.log(token)
         const user = jwt.decode(token.slice(7))
-        Log(user._id, 1, 'News', req.body.title)
-        res.send({
-            message: "news has been added"
-        })
+        res.status(201).json({ success: true, message: "news has been added" })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
     }
@@ -50,6 +46,8 @@ async function getById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let news = await NewsModel.findOne({ _id: id })
+        if (!news) return res.status(200).json({ success: false, message: "News not founded" })
         await NewsModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: "news deleted successful" })
     } catch (error) {
@@ -59,15 +57,10 @@ async function deleteById(req, res) {
 
 async function updateById(req, res) {
     const { id } = req.params
-    const { title, article, image, lang, text } = req.body
     try {
-        await NewsModel.findOneAndUpdate({ _id: id }, {
-            title,
-            article,
-            image,
-            lang,
-            text
-        })
+        let news = await NewsModel.findOne({ _id: id })
+        if (!news) return res.status(200).json({ success: false, message: "News not founded" })
+        await NewsModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "news has been updated" })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
@@ -89,12 +82,14 @@ async function home(req, res) {
 }
 
 async function getHome(req, res) {
+    const { id } = req.params
     try {
-        await NewsModel.updateOne({ _id: req.params.id }, { $inc: { views: 1 } }, { new: true })
-        await NewsModel.findOne({ _id: req.params.id })
+        let news = await NewsModel.findOne({ _id: id })
+        if (!news) return res.status(200).json({ success: false, message: "News not founded" })
+        await NewsModel.updateOne({ _id: id }, { $inc: { views: 1 } }, { new: true })
+        await NewsModel.findOne({ _id: id })
             .exec(async(error, data) => {
                 if (error) return res.status(400).json({ success: false, error })
-
                 if (!data)
                     return res.status(404).json({
                         success: false,
