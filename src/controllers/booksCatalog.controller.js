@@ -24,6 +24,8 @@ async function getAll(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let books_catalog = await BooksCatalogModel.findOne({ _id: id })
+        if (!books_catalog) return res.status(200).json({ success: false, message: "books_catalog not founded" })
         await BooksCatalogModel.findOne({ _id: id })
             .updateOne({ $set: req.body }, { new: true })
         res.status(200).json({ success: true, message: "BooksCatalog has been updated successfully" })
@@ -35,6 +37,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let books_catalog = await BooksCatalogModel.findOne({ _id: id })
+        if (!books_catalog) return res.status(200).json({ success: false, message: "books_catalog not founded" })
         await BooksCatalogModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: "deleted successfully" })
     } catch (error) {

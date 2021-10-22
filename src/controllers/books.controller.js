@@ -35,6 +35,8 @@ async function getById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let book = await BooksModel.findOne({ _id: id })
+        if (!book) return res.status(200).json({ success: false, message: "book not founded" })
         await BooksModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: "book deleted successfully" })
     } catch (error) {
@@ -45,6 +47,8 @@ async function deleteById(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let book = await BooksModel.findOne({ _id: id })
+        if (!book) return res.status(200).json({ success: false, message: "book not founded" })
         await BooksModel.findOneAndUpdate({ _id: id }, { $set: req.body })
         res.status(200).json({ success: true, message: 'book has been updated' })
     } catch (error) {
