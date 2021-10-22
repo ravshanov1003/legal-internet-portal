@@ -15,7 +15,8 @@ async function add(req, res) {
 
 async function getAll(req, res) {
     try {
-        const phonesCatalog = await PhonesCatalog.find().sort({ position: 1 })
+        const phonesCatalog = await PhonesCatalog.find()
+            .sort({ position: 1 })
         if (!phonesCatalog) res.status(404).json({ success: false, message: 'Not found' })
         res.status(200).json({ success: true, phonesCatalog })
     } catch (error) {
@@ -26,6 +27,8 @@ async function getAll(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let catalog = await PhonesCatalog.findOne({ _id: id })
+        if (!catalog) return res.status(200).json({ success: false, message: "catalog not founded" })
         await PhonesCatalog.findOneAndUpdate({ _id: id }, req.body)
         res.json({ success: true, message: "phoneCatalog updated successfully" })
     } catch (error) {
@@ -36,6 +39,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let catalog = await PhonesCatalog.findOne({ _id: id })
+        if (!catalog) return res.status(200).json({ success: false, message: "catalog not founded" })
         await PhonesCatalog.findOneAndDelete({ _id: id })
             .exec((err, data) => {
                 if (err) res.status(400).json({ success: false, message: err.message })

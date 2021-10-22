@@ -28,6 +28,8 @@ async function getAll(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let phone = await PhoneModel.findOne({ _id: id })
+        if (!phone) return res.status(200).json({ success: false, message: "phone not founded" })
         await PhoneModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "phone has been updated" })
     } catch (error) {
@@ -38,6 +40,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let phone = await PhoneModel.findOne({ _id: id })
+        if (!phone) return res.status(200).json({ success: false, message: "phone not founded" })
         await PhoneModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: "phone has been deleted" })
     } catch (error) {

@@ -32,6 +32,8 @@ async function getAll(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let site = await SiteModel.findOne({ _id: id })
+        if (!site) return res.status(200).json({ success: false, message: "site not founded" })
         await SiteModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: 'deleted successfully' })
     } catch (error) {
@@ -40,8 +42,11 @@ async function deleteById(req, res) {
 }
 
 async function updateById(req, res) {
+    const { id } = req.params
     try {
-        await SiteModel.findOneAndUpdate({ _id: req.params.id }, req.body)
+        let site = await SiteModel.findOne({ _id: id })
+        if (!site) return res.status(200).json({ success: false, message: "site not founded" })
+        await SiteModel.findOneAndUpdate({ _id: id }, req.body)
         res.json({ success: true, message: "site has been updated" })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
