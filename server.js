@@ -2,7 +2,6 @@ const cors = require('cors')
 const express = require('express')
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-//const ymlfile = require("./documentation")
 
 const { connectDb } = require('./db/db')
 const { userRouter } = require('./src/routes/user.route')
@@ -14,6 +13,7 @@ const { sitesRouter } = require('./src/routes/sites.route')
 const { phoneRouter } = require('./src/routes/phones.route')
 const { videoRouter } = require('./src/routes/videos.route')
 const { courseRouter } = require('./src/routes/course.route')
+const { problemRouter } = require('./src/routes/problem.route')
 const { problemFAQ_Router } = require('./src/routes/problemFAQ.route')
 const { problemThemeRouter } = require('./src/routes/problemTheme.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
@@ -30,21 +30,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const options = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Library API",
-            version: "1.0.0",
-            description: "A simple Express Library API",
-        },
-        servers: [{
-            url: "http://localhost:5000",
-        }, ],
-    },
-    apis: ["./routes/*.js"],
-};
-
 app.use('/api/user', userRouter)
 app.use('/api/file', fileRouter)
 app.use('/api/admin', adminRouter)
@@ -59,12 +44,9 @@ app.use('/api/course', courseRouter)
 app.use('/api/technical-school', technicalSchoolRouter)
 app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 
+app.use('/api/problem', problemRouter)
 app.use('/api/problem-faq', problemFAQ_Router)
 app.use('/api/problem-theme', problemThemeRouter)
-
-const specs = swaggerJsDoc(options);
-
-app.use("/api", swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use((error, req, res, next) => {
     console.log(error)

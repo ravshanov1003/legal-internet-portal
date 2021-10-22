@@ -22,6 +22,8 @@ async function all(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let video = await VideoModel.findOne({ _id: id })
+        if (!video) return res.status(200).json({ success: false, message: "video not founded" })
         await VideoModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "video updated successfully" })
     } catch (error) {
@@ -32,6 +34,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let video = await VideoModel.findOne({ _id: id })
+        if (!video) return res.status(200).json({ success: false, message: "video not founded" })
         await VideoModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: 'video deleted successfully' })
     } catch (error) {

@@ -46,6 +46,8 @@ async function search(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let problemTheme = await ProblemThemeModel.findOne({ _id: id })
+        if (!problemTheme) return res.status(200).json({ success: false, message: "problemTheme not founded" })
         await ProblemThemeModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "ProblemTheme updated successfully" })
     } catch (error) {
@@ -56,6 +58,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let problemTheme = await ProblemThemeModel.findOne({ _id: id })
+        if (!problemTheme) return res.status(200).json({ success: false, message: "problemTheme not founded" })
         await ProblemThemeModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: 'ProblemTheme deleted successfully' })
     } catch (error) {

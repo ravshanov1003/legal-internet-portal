@@ -34,6 +34,8 @@ async function getById(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let tsf = await TSFModel.findOne({ _id: id })
+        if (!tsf) return res.status(200).json({ success: false, message: "faculty not founded" })
         await TSFModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "Lesson updated successfully" })
     } catch (error) {
@@ -44,6 +46,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let tsf = await TSFModel.findOne({ _id: id })
+        if (!tsf) return res.status(200).json({ success: false, message: "faculty not founded" })
         await TSFModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: 'Lesson deleted successfully' })
     } catch (error) {

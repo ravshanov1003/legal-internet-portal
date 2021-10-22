@@ -39,6 +39,8 @@ async function getById(req, res) {
 async function updateById(req, res) {
     const { id } = req.params
     try {
+        let problemFAQ = await ProblemFAQ_Model.findOne({ _id: id })
+        if (!problemFAQ) return res.status(200).json({ success: false, message: "problemFAQ not founded" })
         await ProblemFAQ_Model.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "ProblemFAQ updated successfully" })
     } catch (error) {
@@ -49,6 +51,8 @@ async function updateById(req, res) {
 async function deleteById(req, res) {
     const { id } = req.params
     try {
+        let problemFAQ = await ProblemFAQ_Model.findOne({ _id: id })
+        if (!problemFAQ) return res.status(200).json({ success: false, message: "problemFAQ not founded" })
         await ProblemFAQ_Model.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: 'ProblemFAQ deleted successfully' })
     } catch (error) {
