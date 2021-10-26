@@ -68,7 +68,7 @@ async function getTop(req, res) {
 
 async function search(req, res) {
     try {
-        await BooksModel.find({ title: { $regex: req.params.text, $options: 'i' } })
+        await BooksModel.find({ title: { $regex: req.query.text, $options: 'i' } })
             .sort({ createdAt: -1 })
             .limit(parseInt(req.query.limit))
             .skip((req.query.page - 1) * req.query.limit)

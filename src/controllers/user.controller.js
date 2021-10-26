@@ -91,8 +91,6 @@ async function signup(req, res) {
         let data = new UserModel(req.body)
         data.password = await bcrypt.hash(data.password, salt)
         await data.save()
-        const token = req.headers.authorization
-        const user = jwt.decode(token.slice(7))
         res.status(201).json({ success: true })
     } catch (error) {
         res.status(400).json({ success: false, error })

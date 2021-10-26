@@ -27,6 +27,7 @@
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
+        "node-cron": "^3.0.0",
         "nodemon": "^2.0.13"
     }
 }

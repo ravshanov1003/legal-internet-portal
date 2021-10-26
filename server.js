@@ -1,9 +1,7 @@
 const cors = require('cors')
 const express = require('express')
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
 
-const { connectDb } = require('./db/db')
+const { connectDb } = require('./services/db/db')
 const { userRouter } = require('./src/routes/user.route')
 const { newsRouter } = require('./src/routes/news.route')
 const { fileRouter } = require('./src/routes/files.route')
@@ -30,9 +28,10 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
+app.use('/api/admin', adminRouter)
 app.use('/api/user', userRouter)
 app.use('/api/file', fileRouter)
-app.use('/api/admin', adminRouter)
 app.use('/api/news', newsRouter)
 app.use('/api/books-catalog', booksCatalogRouter)
 app.use('/api/library', bookRouter)
