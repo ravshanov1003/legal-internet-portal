@@ -1,13 +1,45 @@
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken");
+const redis = require('redis')
 
 const { UserModel } = require('../models/user.model')
-const log = require("../utils/createLog");
+
+const REDIS_PORT = process.env.REDIS_PORT || 6379
+const client = redis.createClient(REDIS_PORT)
+
+// async function users(req, res) {
+//     try {
+//         // const user = await getOrSetCache('users', async() => {
+//         //     const users = await UserModel.find()
+//         //     return users
+//         // })
+//         console.log('Fetching data... (users)')
+//         const users = await UserModel.find()
+//         client.setex('users', 3600, JSON.stringify(users))
+//         res.status(200).json({ success: true, users })
+//     } catch (error) {
+//         res.status(400).json({ success: false, message: error.message })
+//     }
+// }
+
+// function getOrSetCache(key, cb) {
+//     return new Promise((resolve, reject) => {
+//         client.get(key, async(err, data) => {
+//             if (err) return reject(err)
+//             if (data !== null) return resolve(JSON.parse(data))
+//             const freshData = await cb()
+//             client.setex(key, 3600, JSON.stringify(freshData))
+//             resolve(freshData)
+//         })
+//     })
+// }
 
 async function getUsers(req, res) {
     try {
+        console.log('Fetching data... (users)')
         const users = await UserModel.find()
             .sort({ createdAt: -1 })
+        client.setex('users', 600, JSON.stringify(users))
         res.status(200).json({ success: true, users })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
@@ -61,5 +93,6 @@ module.exports = {
     getUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    //users
 }
