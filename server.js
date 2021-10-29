@@ -20,6 +20,8 @@ const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
 const { technicalSchoolFacultyRouter } = require('./src/routes/technicalSchoolFaculty.route')
 
+const { cronRouter, CronJob } = require('./src/utils/cron')
+
 const app = express()
 require('dotenv').config()
 
@@ -28,6 +30,7 @@ const PORT = process.env.PORT || 3000
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+CronJob()
 
 
 app.use('/api/admin', adminRouter)
@@ -49,6 +52,8 @@ app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 app.use('/api/problem', problemRouter)
 app.use('/api/problem-faq', problemFAQ_Router)
 app.use('/api/problem-theme', problemThemeRouter)
+
+app.use('/api/cron', cronRouter)
 
 app.use((error, req, res, next) => {
     console.log(error)
