@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 const auth = require('../middlewares/auth.middleware')
 const book = require('../controllers/books.controller')
-const { cache } = require('../middlewares/cashe.middleware')
+const { cache } = require('../middlewares/cache.middleware')
 
 router.get('/home', book.home)
 router.get('/all', cache('books'), book.getAll)

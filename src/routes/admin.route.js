@@ -1,13 +1,13 @@
 const router = require('express').Router()
 
-const { cache } = require('../middlewares/cashe.middleware')
-const { protect, checkPermission } = require('../middlewares/auth.middleware')
-const { getUsers, getUser, updateUser, deleteUser, users } = require('../controllers/admin.controllers')
+const auth = require('../middlewares/auth.middleware')
+const admin = require('../controllers/admin.controllers')
+const { cache } = require('../middlewares/cache.middleware')
 
 //router.get('/users', cache('users'), users)
-router.get('/all', cache('users'), getUsers)
-router.get('/get/:id', [protect, checkPermission('admin')], getUser)
-router.put("/update/:id", [protect, checkPermission('admin')], updateUser)
-router.delete('/delete/:id', [protect, checkPermission('admin')], deleteUser)
+router.get('/all', cache('users'), admin.getUsers)
+router.get('/get/:id', [auth.protect, auth.checkPermission('admin')], admin.getUser)
+router.put("/update/:id", [auth.protect, auth.checkPermission('admin')], admin.updateUser)
+router.delete('/delete/:id', [auth.protect, auth.checkPermission('admin')], admin.deleteUser)
 
 module.exports = { adminRouter: router }

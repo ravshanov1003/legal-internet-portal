@@ -9,7 +9,6 @@ async function add(req, res) {
     let data = new NewsModel(req.body)
     try {
         await data.save()
-        const token = req.headers.authorization
         res.status(201).json({ success: true, message: "news has been added" })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
@@ -19,14 +18,13 @@ async function add(req, res) {
 async function getAll(req, res) {
     try {
         const news = await NewsModel.find()
-        if (!news) res.send(404).json({ success: false, error })
             .sort({ createdAt: -1 })
         client.get('news', async(err, data) => {
                 if (err) throw err
                 if (data) {
                     return res.status(200).json({ success: true, data: JSON.parse(data) })
                 } else { // When the data is not found in the cache then we can make request to the server
-                    client.setex('news', 1440, JSON.stringify(news));
+                    client.setex('news', 600, JSON.stringify(news));
                     return res.status(200).send({ success: true, data: news });
                 }
             })
