@@ -21,6 +21,7 @@ const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
 const { technicalSchoolFacultyRouter } = require('./src/routes/technicalSchoolFaculty.route')
 
 const { cronRouter, CronJob } = require('./src/utils/cron')
+const { homeRouter } = require('./src/routes/home.route')
 
 const app = express()
 require('dotenv').config()
@@ -44,6 +45,7 @@ app.use('/api/helpline', phoneRouter)
 app.use('/api/sites', sitesRouter)
 app.use('/api/video', videoRouter)
 app.use('/api/menu', menuRouter)
+app.use('/api/home', homeRouter)
 
 app.use('/api/course', courseRouter)
 app.use('/api/technical-school', technicalSchoolRouter)
