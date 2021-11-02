@@ -44,7 +44,7 @@ const schema = new Schema({
 
 schema.methods.generateAuthToken = function() {
     return jwt.sign({ _id: this._id, userType: this.userType },
-        process.env.JWT_SECRET, { expiresIn: '7d' } // 1 week
+        process.env.JWT_SECRET, { expiresIn: '14d' } // 2 week
     )
 }
 
