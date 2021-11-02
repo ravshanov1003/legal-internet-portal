@@ -49,7 +49,7 @@ async function deleteById(req, res) {
     const { id } = req.params
     try {
         let news = await NewsModel.findOne({ _id: id })
-        if (!news) return res.status(200).json({ success: false, message: "News not founded" })
+        if (!news) return res.status(404).json({ success: false, message: "News not founded" })
         await NewsModel.findOneAndDelete({ _id: id })
         res.status(200).json({ success: true, message: "news deleted successful" })
     } catch (error) {
@@ -61,7 +61,7 @@ async function updateById(req, res) {
     const { id } = req.params
     try {
         let news = await NewsModel.findOne({ _id: id })
-        if (!news) return res.status(200).json({ success: false, message: "News not founded" })
+        if (!news) return res.status(404).json({ success: false, message: "News not founded" })
         await NewsModel.findOneAndUpdate({ _id: id }, req.body)
         res.status(200).json({ success: true, message: "news has been updated" })
     } catch (error) {

@@ -94,14 +94,19 @@ async function search(req, res) {
 
 async function admin(req, res) {
     try {
-        await BooksModel.find()
-            .sort({ createdAt: -1 })
-            .select({ title: 1, image: 1, view: 1, downloads: 1, catalog: 1, lang: 1, createdAt: 1 })
-            .populate('catalog')
-            .exec((err, data) => {
-                if (err) return res.status(400).json({ success: false, err })
-                return res.status(200).json({ success: true, data })
-            })
+        if (myCache.has('admin-books')) {
+            console.log('getting it from cache')
+            res.status(200).json(myCache.get('admin-books'))
+        } else {
+            const data = await BooksModel.find()
+                .sort({ createdAt: -1 })
+                .select({ title: 1, image: 1, view: 1, downloads: 1, catalog: 1, lang: 1, createdAt: 1 })
+                .populate('catalog')
+            myCache.set('admin-books', data)
+            console.log('getting it from api')
+            return res.status(200).json({ success: true, data })
+        }
+
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
     }
