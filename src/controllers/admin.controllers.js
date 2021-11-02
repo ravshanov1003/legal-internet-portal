@@ -1,11 +1,13 @@
-const bcrypt = require('bcryptjs')
-const jwt = require("jsonwebtoken");
 const redis = require('redis')
+const bcrypt = require('bcryptjs')
+const NodeCache = require("node-cache");
 
 const { UserModel } = require('../models/user.model')
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379
-const client = redis.createClient(REDIS_PORT)
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+
+// const REDIS_PORT = process.env.REDIS_PORT || 6379
+// const client = redis.createClient(REDIS_PORT)
 
 // async function users(req, res) {
 //     try {
@@ -36,11 +38,17 @@ const client = redis.createClient(REDIS_PORT)
 
 async function getUsers(req, res) {
     try {
-        console.log('Fetching data... (users)')
-        const users = await UserModel.find()
-            .sort({ createdAt: -1 })
-        client.setex('users', 600, JSON.stringify(users))
-        res.status(200).json({ success: true, users })
+        if (myCache.has('users')) {
+            console.log('getting it from cache')
+            return res.status(200).json(myCache.get('users'))
+        } else {
+            const users = await UserModel.find()
+                .sort({ createdAt: -1 })
+                //client.setex('users', 600, JSON.stringify(users))
+            myCache.set('users', users)
+            console.log('getting it from api', )
+            res.status(200).json({ success: true, users })
+        }
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
     }

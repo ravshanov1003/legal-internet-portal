@@ -2,10 +2,10 @@ const router = require('express').Router()
 
 const auth = require('../middlewares/auth.middleware')
 const book = require('../controllers/books.controller')
-const { cache } = require('../middlewares/cache.middleware')
+    //const { cache } = require('../middlewares/cache.middleware')
 
 router.get('/home', book.home)
-router.get('/all', cache('books'), book.getAll)
+router.get('/all', book.getAll)
 router.get('/top', book.getTop)
 router.get('/get/:id', book.getById)
 router.get('/search', book.search)

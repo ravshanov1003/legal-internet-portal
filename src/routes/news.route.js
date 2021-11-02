@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const news = require('../controllers/news.controller')
+    //const { nodeCache } = require('../middlewares/cache.middleware')
 const { protect, checkPermission } = require('../middlewares/auth.middleware')
 
 router.get('/all', news.getAll)

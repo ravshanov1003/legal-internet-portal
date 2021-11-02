@@ -1,9 +1,8 @@
-const redis = require('redis')
+const NodeCache = require("node-cache");
 
 const { BooksModel } = require('../models/books.model')
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379
-const client = redis.createClient(REDIS_PORT)
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 async function add(req, res) {
     const { title, description, author, organization, lang, year, catalog, file, image, tags, view, downloads, slug } = req.body
@@ -18,11 +17,16 @@ async function add(req, res) {
 
 async function getAll(req, res) {
     try {
-        console.log('Fetching data...(books)')
-        const books = await BooksModel.find()
-            .sort({ createdAt: -1 })
-        client.setex('books', 600, JSON.stringify(books))
-        res.status(200).json({ success: true, books })
+        if (myCache.has('books')) {
+            console.log('getting it from cache')
+            res.status(200).json(myCache.get('books'))
+        } else {
+            const books = await BooksModel.find()
+                .sort({ createdAt: -1 })
+            myCache.set('books', books)
+            console.log('getting it from api')
+            res.status(200).json({ success: true, books })
+        }
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
     }

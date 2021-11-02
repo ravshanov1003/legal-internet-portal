@@ -1,9 +1,8 @@
-const redis = require('redis');
+const NodeCache = require("node-cache");
 
 const { NewsModel } = require('../models/news.model')
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379
-const client = redis.createClient(REDIS_PORT)
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 async function add(req, res) {
     let data = new NewsModel(req.body)
@@ -17,22 +16,16 @@ async function add(req, res) {
 
 async function getAll(req, res) {
     try {
-        const news = await NewsModel.find()
-            .sort({ createdAt: -1 })
-        client.get('news', async(err, data) => {
-                if (err) throw err
-                if (data) {
-                    return res.status(200).json({ success: true, data: JSON.parse(data) })
-                } else { // When the data is not found in the cache then we can make request to the server
-                    client.setex('news', 600, JSON.stringify(news));
-                    return res.status(200).send({ success: true, data: news });
-                }
-            })
-            // if (!news) res.send(404).json({ success: false, error })
-            // res.status(200).json({
-            //     success: true,
-            //     news
-            // })
+        if (myCache.has('news')) {
+            console.log('getting it from cache')
+            return res.status(200).json(myCache.get('news'))
+        } else {
+            const news = await NewsModel.find()
+                .sort({ createdAt: -1 })
+            myCache.set('news', news)
+            console.log('getting it from api', )
+            res.status(200).json({ success: true, data: news });
+        }
     } catch (error) {
         res.status(400).json({ success: false, message: error.message })
     }
