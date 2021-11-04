@@ -16,6 +16,7 @@ const { problemRouter } = require('./src/routes/problem.route')
 const { problemFAQ_Router } = require('./src/routes/problemFAQ.route')
 const { problemThemeRouter } = require('./src/routes/problemTheme.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
+const { quizQuestionRouter } = require('./src/routes/quizQuestion.route')
 const { legalGlossaryRouter } = require('./src/routes/legalGlossary.route')
 const { phonesCatalogRouter } = require('./src/routes/phonesCatalog.route.js')
 const { technicalSchoolRouter } = require('./src/routes/technicalSchool.route')
@@ -56,6 +57,8 @@ app.use('/api/technical-school-faculty', technicalSchoolFacultyRouter)
 app.use('/api/problem', problemRouter)
 app.use('/api/problem-faq', problemFAQ_Router)
 app.use('/api/problem-theme', problemThemeRouter)
+
+app.use('/api/quiz-question', quizQuestionRouter)
 
 app.use('/api/cron', cronRouter)
 
