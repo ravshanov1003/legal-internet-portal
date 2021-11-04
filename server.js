@@ -15,6 +15,7 @@ const { videoRouter } = require('./src/routes/videos.route')
 const { courseRouter } = require('./src/routes/course.route')
 const { problemRouter } = require('./src/routes/problem.route')
 const { quizThemeRouter } = require('./src/routes/quizTheme.route')
+const { testResultRouter } = require('./src/routes/testResult.route')
 const { problemFAQ_Router } = require('./src/routes/problemFAQ.route')
 const { problemThemeRouter } = require('./src/routes/problemTheme.route')
 const { booksCatalogRouter } = require('./src/routes/booksCatalog.route')
@@ -49,10 +50,6 @@ app.use('/api/helpline', phoneRouter)
 app.use('/api/legal-glossary', legalGlossaryRouter)
 app.use('/api/sites', sitesRouter)
 app.use('/api/video', videoRouter)
-app.use('/api/menu', menuRouter)
-
-app.use('/api/home', homeRouter)
-app.use('/api/visit', visitRouter)
 
 app.use('/api/course', courseRouter)
 app.use('/api/technical-school', technicalSchoolRouter)
@@ -64,8 +61,14 @@ app.use('/api/problem-theme', problemThemeRouter)
 
 app.use('/api/quiz-theme', quizThemeRouter)
 app.use('/api/quiz-question', quizQuestionRouter)
+app.use('/api/test-result', testResultRouter)
+
+app.use('/api/menu', menuRouter)
+app.use('/api/home', homeRouter)
+app.use('/api/visit', visitRouter)
 
 app.use('/api/cron', cronRouter)
+
 
 app.use((error, req, res, next) => {
     console.log(error)
