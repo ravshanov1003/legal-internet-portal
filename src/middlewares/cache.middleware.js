@@ -1,8 +1,8 @@
 const redis = require('redis')
 const NodeCache = require("node-cache");
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379
-const client = redis.createClient(REDIS_PORT)
+// const REDIS_PORT = process.env.REDIS_PORT || 6379
+// const client = redis.createClient(REDIS_PORT)
 
 const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
