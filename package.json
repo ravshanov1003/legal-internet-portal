@@ -11,6 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@socket.io/admin-ui": "^0.2.0",
         "api-spec-transformer": "^0.2.6",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
@@ -24,7 +25,8 @@
         "node-cache": "^5.1.2",
         "node-fetch": "^3.0.0",
         "nodemailer": "^6.7.0",
-        "redis": "^3.1.2"
+        "redis": "^3.1.2",
+        "socket.io": "^4.3.1"
     },
     "devDependencies": {
         "node-cron": "^3.0.0",
